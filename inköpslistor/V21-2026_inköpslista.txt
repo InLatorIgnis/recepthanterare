@@ -1,0 +1,18 @@
+
+╔══════════════════════════════════════════════════════╗
+║                     INKÖPSLISTA                      ║
+║           för veckomeny: V21-2026                    ║
+║           Butik: IKEA                                ║
+╚══════════════════════════════════════════════════════╝
+
+          ━━━ FRYST ━━━
+              ☐ Kycklinglårfilé     500.0    g
+              ☐ Vatten                2.0   dl
+              ☐ Pommes Frites       500.0    g
+              ☐ Kyckling            250.0    g
+              ☐ VegoProtein         250.0    g
+              ☐ Pettepana             1.0   st
+
+          ━━━ SYLT ━━━
+              ☐ Sylt                  1.0   st
+

@@ -1,0 +1,55 @@
+
+╔══════════════════════════════════════════════════════╗
+║           INKÖPSLISTA - Inköpslista                  ║
+║           för veckomeny: V21-2026                    ║
+║           Butik: ICA Mobilia                         ║
+╚══════════════════════════════════════════════════════╝
+
+━━━ GRÖNSAKER ━━━
+  ☐ Champinjoner                    300.0 g
+  ☐ Lök                               3.0 st
+  ☐ Potatis                         500.0 g
+  ☐ Morötter                        300.0 g
+  ☐ Zucchini                        400.0 g
+  ☐ Aubergine                       300.0 g
+
+━━━ FRUKT ━━━
+  ☐ Citron                            1.0 st
+
+━━━ KONSERV ━━━
+  ☐ Vitvin                            1.0 dl
+  ☐ Kycklingsoppa                     6.0 dl
+  ☐ Tomatsås                        500.0 g
+
+━━━ PASTA ━━━
+  ☐ Lasagneplattor                  300.0 g
+
+━━━ BAGERI ━━━
+  ☐ Vetemjöl                          2.5 dl
+  ☐ Vetebröd                          1.0 st
+
+━━━ KRYDDOR ━━━
+  ☐ Salt                             14.0 ml
+  ☐ Peppar                            6.0 ml
+  ☐ Dill                             10.0 g
+
+━━━ FISK ━━━
+  ☐ Fiskfilé                        600.0 g
+  ☐ Laxfilé                         600.0 g
+
+━━━ KÖTT ━━━
+  ☐ Kycklingbröst                  1300.0 g
+  ☐ Nötfärs                         500.0 g
+
+━━━ OST ━━━
+  ☐ Ost                             100.0 g
+  ☐ Mozzarella                      200.0 g
+  ☐ Parmesan                        100.0 g
+
+━━━ MEJERI ━━━
+  ☐ Ägg                               5.0 st
+  ☐ Mjölk                            11.0 dl
+  ☐ Smör                            190.0 g
+  ☐ Grädde                            3.0 dl
+  ☐ Ricotta                         250.0 g
+
