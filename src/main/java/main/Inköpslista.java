@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import Butikslayout.ButiksLayout;
 import ENUMS.Kategori;
 import Recept.FileReceptRepository;
-import Recept.receptfabrik;
+import Recept.ReceptFabrik;
 import Veckomeny.Veckomeny;
 import Veckomeny.Veckomeny.VeckomenyPost;
 
@@ -21,7 +21,7 @@ public class Inköpslista {
     private String namn;
     private ButiksLayout layout;
     private Veckomeny menu;
-    private Map<Kategori, List<receptfabrik.ReceptIngrediens>> ingredienserPerKategori;
+    private Map<Kategori, List<ReceptFabrik.ReceptIngrediens>> ingredienserPerKategori;
 
     public Inköpslista(String namn, ButiksLayout layout, Veckomeny menu) {
         this.namn = namn;
@@ -51,10 +51,10 @@ public class Inköpslista {
 
             try {
                 // Load/resolve the recipe and scale ingredients by the selected portion count
-                List<receptfabrik.ReceptIngrediens> ingredienser = resolveIngredienserForPost(dayEntry.getValue(), receptRepository);
+                List<ReceptFabrik.ReceptIngrediens> ingredienser = resolveIngredienserForPost(dayEntry.getValue(), receptRepository);
 
                 // Add each ingredient to its category
-                for (receptfabrik.ReceptIngrediens ingrediens : ingredienser) {
+                for (ReceptFabrik.ReceptIngrediens ingrediens : ingredienser) {
                     try {
                         Kategori kategori = Kategori.valueOf(ingrediens.getKategori());
                         if (ingredienserPerKategori.containsKey(kategori)) {
@@ -70,8 +70,8 @@ public class Inköpslista {
         }
     }
 
-    private List<receptfabrik.ReceptIngrediens> resolveIngredienserForPost(VeckomenyPost post, FileReceptRepository receptRepository) throws Exception {
-        receptfabrik recept = post.getRecept();
+    private List<ReceptFabrik.ReceptIngrediens> resolveIngredienserForPost(VeckomenyPost post, FileReceptRepository receptRepository) throws Exception {
+        ReceptFabrik recept = post.getRecept();
         String receptNamn = post.getNamn();
 
         if ((recept == null || recept.getIngrediensList() == null || recept.getIngrediensList().isEmpty())
@@ -94,8 +94,8 @@ public class Inköpslista {
     private Map<String, IngrediensTotal> aggregateByName() {
         Map<String, IngrediensTotal> totals = new LinkedHashMap<>();
 
-        for (Map.Entry<Kategori, List<receptfabrik.ReceptIngrediens>> entry : ingredienserPerKategori.entrySet()) {
-            for (receptfabrik.ReceptIngrediens ingrediens : entry.getValue()) {
+        for (Map.Entry<Kategori, List<ReceptFabrik.ReceptIngrediens>> entry : ingredienserPerKategori.entrySet()) {
+            for (ReceptFabrik.ReceptIngrediens ingrediens : entry.getValue()) {
                 String key = ingrediens.getNamn().toLowerCase();
                 
                 if (totals.containsKey(key)) {
@@ -127,7 +127,7 @@ public class Inköpslista {
         Map<String, IngrediensTotal> totals = aggregateByName();
 
         for (Kategori kategori : layout.getKategoriOrdning()) {
-            List<receptfabrik.ReceptIngrediens> ingredienser = ingredienserPerKategori.get(kategori);
+            List<ReceptFabrik.ReceptIngrediens> ingredienser = ingredienserPerKategori.get(kategori);
             
             if (ingredienser == null || ingredienser.isEmpty()) {
                 continue;
@@ -137,7 +137,7 @@ public class Inköpslista {
 
             // Get unique ingredients for this category and sum quantities
             Map<String, IngrediensTotal> categoryTotals = new LinkedHashMap<>();
-            for (receptfabrik.ReceptIngrediens ing : ingredienser) {
+            for (ReceptFabrik.ReceptIngrediens ing : ingredienser) {
                 String key = ing.getNamn().toLowerCase();
                 if (categoryTotals.containsKey(key)) {
                     categoryTotals.get(key).addMängd(ing.getMängd());

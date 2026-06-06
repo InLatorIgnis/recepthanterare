@@ -2,7 +2,7 @@ package GUI;
 import javax.swing.*;
 
 import Recept.FileReceptRepository;
-import Recept.receptfabrik;
+import Recept.ReceptFabrik;
 
 import java.awt.*;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RecipeWindow extends JFrame {
     private FileReceptRepository receptRepository;
-    private List<receptfabrik.ReceptIngrediens> nuvarandeIngredienser = new ArrayList<>();
+    private List<ReceptFabrik.ReceptIngrediens> nuvarandeIngredienser = new ArrayList<>();
 
     // Komponenter i gränssnittet
     private JComboBox<String> recipeComboBox;
@@ -81,10 +81,10 @@ public class RecipeWindow extends JFrame {
         ingNameField = new JTextField(8);
         ingAmountField = new JTextField(4);
         // Skapa kombo för kategorier med giltiga värden
-        String[] enheter = receptfabrik.ReceptIngrediens.getValidEnheter().split(", ");
+        String[] enheter = ReceptFabrik.ReceptIngrediens.getValidEnheter().split(", ");
         ingUnitCombo = new JComboBox<>(enheter);
         // Skapa kombo för kategorier med giltiga värden
-        String[] kategorier = receptfabrik.ReceptIngrediens.getValidKategorier().split(", ");
+        String[] kategorier = ReceptFabrik.ReceptIngrediens.getValidKategorier().split(", ");
         ingCategoryCombo = new JComboBox<>(kategorier);
         addIngrediensButton = new JButton("Lägg till ingrediens");
 
@@ -126,7 +126,7 @@ public class RecipeWindow extends JFrame {
             nameField.setEditable(false); // Lås namnet vid visning
             nuvarandeIngredienser.clear();
             try {
-                receptfabrik rp = receptRepository.ladda(valtRecept);
+                ReceptFabrik rp = receptRepository.ladda(valtRecept);
                 ingredientsArea.setText(rp.output());
                 nuvarandeIngredienser.addAll(rp.getIngrediensList());
             } catch (Exception ex) {
@@ -157,7 +157,7 @@ public class RecipeWindow extends JFrame {
                 String enhet = (String) ingUnitCombo.getSelectedItem();
                 String kategori = (String) ingCategoryCombo.getSelectedItem();
 
-                receptfabrik.ReceptIngrediens nyIng = new receptfabrik.ReceptIngrediens(namn, kategori, mangd, enhet);
+                ReceptFabrik.ReceptIngrediens nyIng = new ReceptFabrik.ReceptIngrediens(namn, kategori, mangd, enhet);
                 nuvarandeIngredienser.add(nyIng);
 
                 // Uppdatera textarean så användaren ser vad som lagts till
@@ -187,7 +187,7 @@ public class RecipeWindow extends JFrame {
                 return;
             }
 
-            receptfabrik nyttRecept = new receptfabrik(receptNamn, nuvarandeIngredienser);
+            ReceptFabrik nyttRecept = new ReceptFabrik(receptNamn, nuvarandeIngredienser);
 
             try {
                 if (receptRepository.exists(receptNamn)) {

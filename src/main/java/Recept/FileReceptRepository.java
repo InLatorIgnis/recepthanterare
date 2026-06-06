@@ -10,7 +10,7 @@ public class FileReceptRepository implements ReceptRepository {
     
     public static final Path DEFAULT_RECIPES_DIR = Path.of("./recept");
     
-    private Map<String, receptfabrik> receptMap = new HashMap<>();
+    private Map<String, ReceptFabrik> receptMap = new HashMap<>();
     private final Path folderPath;
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -30,7 +30,7 @@ public class FileReceptRepository implements ReceptRepository {
     }
 
     @Override
-    public void spara(receptfabrik recept) throws IOException {
+    public void spara(ReceptFabrik recept) throws IOException {
         mapper.writeValue(
             folderPath.resolve(recept.getNamn() + ".json").toFile(),
             recept
@@ -39,14 +39,20 @@ public class FileReceptRepository implements ReceptRepository {
     }
 
     @Override
-    public receptfabrik ladda(String namn) throws IOException {
-        receptfabrik recept = mapper.readValue(
+    public ReceptFabrik ladda(String namn) throws IOException {
+        ReceptFabrik recept = mapper.readValue(
             folderPath.resolve(namn + ".json").toFile(),
-            receptfabrik.class
+            ReceptFabrik.class
         );
         receptMap.put(namn, recept);
         return recept;
     }
+
+    public Map<String, ReceptFabrik> hämtaLaddadeRecept() {
+        return receptMap;
+    }
+
+
 
     @Override
     public boolean exists(String namn) {

@@ -2,7 +2,7 @@ package GUI;
 import javax.swing.*;
 
 import Recept.FileReceptRepository;
-import Recept.receptfabrik;
+import Recept.ReceptFabrik;
 import Veckomeny.FileVeckomenyRepository;
 import Veckomeny.Veckomeny;
 import Veckomeny.Veckomeny.VeckomenyPost;
@@ -32,8 +32,10 @@ public class MenuWindow extends JFrame {
    
     private List<JComboBox<String>> dayComboBoxes = new ArrayList<>();
     private List<JSpinner> daySpinners = new ArrayList<>();
+    private List<JButton> dayRecommendButtons = new ArrayList<>();
     private JComboBox<String> MondayComboBox, TuesdayComboBox, WednesdayComboBox, ThursdayComboBox, FridayComboBox, SaturdayComboBox, SundayComboBox;
     private JSpinner MondaySpinner, TuesdaySpinner, WednesdaySpinner, ThursdaySpinner, FridaySpinner, SaturdaySpinner, SundaySpinner;
+    private JButton MondayRecommendButton, TuesdayRecommendButton, WednesdayRecommendButton, ThursdayRecommendButton, FridayRecommendButton, SaturdayRecommendButton, SundayRecommendButton;
     private JButton NewMenuButton;
     private JButton saveButton;
     private JButton deleteButton;
@@ -58,6 +60,14 @@ public class MenuWindow extends JFrame {
         daySpinners.add(FridaySpinner);
         daySpinners.add(SaturdaySpinner);
         daySpinners.add(SundaySpinner);
+
+        dayRecommendButtons.add(MondayRecommendButton);
+        dayRecommendButtons.add(TuesdayRecommendButton);
+        dayRecommendButtons.add(WednesdayRecommendButton);
+        dayRecommendButtons.add(ThursdayRecommendButton);
+        dayRecommendButtons.add(FridayRecommendButton);
+        dayRecommendButtons.add(SaturdayRecommendButton);
+        dayRecommendButtons.add(SundayRecommendButton);
 
         setTitle("Veckomenyhanterare");
         setSize(800, 600);
@@ -96,7 +106,7 @@ public class MenuWindow extends JFrame {
         // FORMULÄR FÖR ATT LÄGGA TILL RECEPT PÅ VECKOMENYN
 
         veckodagar = Arrays.asList("Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag");
-        JPanel daysPanel = new JPanel(new GridLayout(7, 2, 5, 5));
+        JPanel daysPanel = new JPanel(new GridLayout(7, 3, 5, 5));
         daysPanel.setBorder(BorderFactory.createTitledBorder("Välj recept för veckan"));
         for (int index = 0; index < veckodagar.size(); index++) {
             String dag = veckodagar.get(index);
@@ -104,13 +114,22 @@ public class MenuWindow extends JFrame {
             läsInRecept(comboBox);
 
             JSpinner portionSpinner = new JSpinner(new SpinnerNumberModel(4, 1, 50, 1)); // För att välja portioner
+            
+            JButton recommendButton = new JButton("🔍");
+            recommendButton.setToolTipText("Rekommendera recept baserat på dina ingredienser");
+            final int dayIndex = index;
+            recommendButton.addActionListener(e -> openRecommendationWindow(dayIndex));
 
             dayComboBoxes.set(index, comboBox);
             daySpinners.set(index, portionSpinner);
+            dayRecommendButtons.set(index, recommendButton);
+            
             daysPanel.add(new JLabel(dag + ":"));
             daysPanel.add(comboBox);
+            daysPanel.add(recommendButton);
             daysPanel.add(new JLabel("Portioner:"));
             daysPanel.add(portionSpinner);
+            daysPanel.add(new JLabel("")); // placeholder for alignment
                         
         }
 
@@ -174,6 +193,12 @@ public class MenuWindow extends JFrame {
         };
     }
 
+    private void openRecommendationWindow(int dayIndex) {
+        String dag = veckodagar.get(dayIndex);
+        MenuWindowRekomenderare recommender = new MenuWindowRekomenderare(receptRepository, dayComboBoxes.get(dayIndex), daySpinners.get(dayIndex), dag);
+        recommender.setVisible(true);
+    }
+
     private void setupActions(JButton saveButton, JButton deleteButton, JButton backButton, JButton NewMenuButton) {
         // LÄSA IN (Hämta befintligt)
         MenuComboBox.addActionListener(e -> {
@@ -222,7 +247,7 @@ public class MenuWindow extends JFrame {
                 String dag = veckodagar.get(i);
                 try {
                     if (receptNamn != null && !receptNamn.isEmpty()) {
-                        receptfabrik recept = receptRepository.ladda(receptNamn);
+                        ReceptFabrik recept = receptRepository.ladda(receptNamn);
                         DayOfWeek dayOfWeek = toDayOfWeek(dag);
                         nyMeny.setReceptForDag(dayOfWeek, new VeckomenyPost(recept, portioner));
                     }

@@ -9,7 +9,7 @@ import ENUMS.Kategori;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class receptfabrik {
+public class ReceptFabrik {
     @JsonProperty
     private String namn;
     
@@ -19,11 +19,11 @@ public class receptfabrik {
     private double standardPortion = 4; // Default portion size for scaling
 
     // No-arg constructor for JSON deserialization
-    public receptfabrik() {
+    public ReceptFabrik() {
         this.ingrediensList = new ArrayList<>();
     }
 
-    public receptfabrik(String namn, List<ReceptIngrediens> ingrediensList) {
+    public ReceptFabrik(String namn, List<ReceptIngrediens> ingrediensList) {
         this.namn = namn;
         this.ingrediensList = ingrediensList;
         

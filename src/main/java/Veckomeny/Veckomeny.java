@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import Recept.receptfabrik;
+import Recept.ReceptFabrik;
 
 
 public class Veckomeny {
@@ -27,13 +27,13 @@ public class Veckomeny {
         this.namn = namn;
         this.dagar = new TreeMap<>();
         // Initialize with empty days
-        this.dagar.put(DayOfWeek.MONDAY, new VeckomenyPost(new receptfabrik(), 4)); // Default 4 portions
-        this.dagar.put(DayOfWeek.TUESDAY, new VeckomenyPost(new receptfabrik(), 4));
-        this.dagar.put(DayOfWeek.WEDNESDAY, new VeckomenyPost(new receptfabrik(), 4));
-        this.dagar.put(DayOfWeek.THURSDAY, new VeckomenyPost(new receptfabrik(), 4));
-        this.dagar.put(DayOfWeek.FRIDAY, new VeckomenyPost(new receptfabrik(), 4));
-        this.dagar.put(DayOfWeek.SATURDAY, new VeckomenyPost(new receptfabrik(), 4));
-        this.dagar.put(DayOfWeek.SUNDAY, new VeckomenyPost(new receptfabrik(), 4));
+        this.dagar.put(DayOfWeek.MONDAY, new VeckomenyPost(new ReceptFabrik(), 4)); // Default 4 portions
+        this.dagar.put(DayOfWeek.TUESDAY, new VeckomenyPost(new ReceptFabrik(), 4));
+        this.dagar.put(DayOfWeek.WEDNESDAY, new VeckomenyPost(new ReceptFabrik(), 4));
+        this.dagar.put(DayOfWeek.THURSDAY, new VeckomenyPost(new ReceptFabrik(), 4));
+        this.dagar.put(DayOfWeek.FRIDAY, new VeckomenyPost(new ReceptFabrik(), 4));
+        this.dagar.put(DayOfWeek.SATURDAY, new VeckomenyPost(new ReceptFabrik(), 4));
+        this.dagar.put(DayOfWeek.SUNDAY, new VeckomenyPost(new ReceptFabrik(), 4));
     }
 
     public String getNamn() {
@@ -120,17 +120,17 @@ public class Veckomeny {
     public static class VeckomenyPost {
         
         @JsonProperty
-        private receptfabrik recept;
+        private ReceptFabrik recept;
 
         @JsonProperty
         private int portioner;
 
         public VeckomenyPost() {
-            this.recept = new receptfabrik();
+            this.recept = new ReceptFabrik();
             this.portioner = 4; // Default portioner
         }
         
-        public VeckomenyPost(receptfabrik recept, int portioner) {
+        public VeckomenyPost(ReceptFabrik recept, int portioner) {
             this.recept = recept;
             this.portioner = portioner;
         }
@@ -142,11 +142,11 @@ public class Veckomeny {
             this.recept.setNamn(namn);
         }
 
-        public receptfabrik getRecept() {
+        public ReceptFabrik getRecept() {
             return this.recept;
         }
 
-        public void setRecept(receptfabrik recept) {
+        public void setRecept(ReceptFabrik recept) {
             this.recept = recept;
         }
         public int getPortioner() {

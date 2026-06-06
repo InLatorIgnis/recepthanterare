@@ -15,7 +15,7 @@ import Butikslayout.ButiksLayout;
 import Butikslayout.FileButiksLayoutRepository;
 import ENUMS.Kategori;
 import Recept.FileReceptRepository;
-import Recept.receptfabrik;
+import Recept.ReceptFabrik;
 import Veckomeny.FileVeckomenyRepository;
 import Veckomeny.Veckomeny;
 import Veckomeny.Veckomeny.VeckomenyPost; 
@@ -125,7 +125,7 @@ public class CLI {
         System.out.print("Receptets namn: ");
         String namn = SanitizeNamn(scanner);
 
-        List<receptfabrik.ReceptIngrediens> ingrediensList = new ArrayList<>();
+        List<ReceptFabrik.ReceptIngrediens> ingrediensList = new ArrayList<>();
         boolean addingIngredients = true;
 
         while (addingIngredients) {
@@ -148,7 +148,7 @@ public class CLI {
             String enhet = selectEnhet(scanner);
 
             try {
-                ingrediensList.add(new receptfabrik.ReceptIngrediens(ingrediensNamn, kategori, mängd, enhet));
+                ingrediensList.add(new ReceptFabrik.ReceptIngrediens(ingrediensNamn, kategori, mängd, enhet));
                 System.out.println("Ingrediens tillagd.");
             } catch (IllegalArgumentException e) {
                 System.out.println("Fel: " + e.getMessage());
@@ -160,7 +160,7 @@ public class CLI {
             return;
         }
 
-        receptfabrik nyRecept = new receptfabrik(namn, ingrediensList);
+        ReceptFabrik nyRecept = new ReceptFabrik(namn, ingrediensList);
 
         // Check if recipe already exists
         if (repository.exists(namn)) {
@@ -186,7 +186,7 @@ public class CLI {
             return;
         }
 
-        receptfabrik recept = repository.ladda(namn);
+        ReceptFabrik recept = repository.ladda(namn);
         System.out.println("\n" + recept.output());
     }
 
@@ -269,7 +269,7 @@ public class CLI {
 
         Veckomeny nyVeckomeny = new Veckomeny(namn);
         String[] dagar = {"Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"};
-        receptfabrik recept = new receptfabrik(); // Tom receptfabrik för att ladda recept i VeckomenyPost
+        ReceptFabrik recept = new ReceptFabrik(); // Tom receptfabrik för att ladda recept i VeckomenyPost
         
         System.out.println("\nLägg till recept för varje dag (skriv receptets namn eller lämna tomt för att hoppa över):");
         for (String dag : dagar) {
@@ -329,7 +329,7 @@ public class CLI {
             String dag = dagar[choice - 1];
             System.out.print("Nytt recept för " + dag + ": ");
             String nyttRecept = scanner.nextLine().trim();
-                receptfabrik recept = receptRepository.ladda(nyttRecept); // Försök ladda receptet för att validera att det finns
+                ReceptFabrik recept = receptRepository.ladda(nyttRecept); // Försök ladda receptet för att validera att det finns
             System.out.print("Antal portioner: ");
                 int portioner = scanner.nextInt(); 
             veckomeny.setReceptForDag(toDayOfWeek(dag), new VeckomenyPost(recept, portioner));
@@ -496,7 +496,7 @@ public class CLI {
     }
 
     public static String selectKategori(Scanner scanner) {
-        String[] kategorier = receptfabrik.ReceptIngrediens.getValidKategorier().split(", ");
+        String[] kategorier = ReceptFabrik.ReceptIngrediens.getValidKategorier().split(", ");
         System.out.println("\nVälj kategori:");
         for (int i = 0; i < kategorier.length; i++) {
             System.out.println((i + 1) + ". " + kategorier[i]);
@@ -521,7 +521,7 @@ public class CLI {
     }
 
     public static String selectEnhet(Scanner scanner) {
-        String[] enheter = receptfabrik.ReceptIngrediens.getValidEnheter().split(", ");
+        String[] enheter = ReceptFabrik.ReceptIngrediens.getValidEnheter().split(", ");
         System.out.println("\nVälj enhet:");
         for (int i = 0; i < enheter.length; i++) {
             System.out.println((i + 1) + ". " + enheter[i]);

@@ -67,7 +67,7 @@ public class RecepthanterareGUI extends JFrame {
 
         // Skapa menykomponenter
 menuBar = new JMenuBar();
-fileMenu = new JMenu("Fil");
+fileMenu = new JMenu("Verktyg");
 newJMenuItem = new JMenuItem("Nytt");
 exitMenuItem = new JMenuItem("Avsluta");
 
@@ -77,34 +77,31 @@ exitMenuItem = new JMenuItem("Avsluta");
     // Lyssnare för "Nytt" som visar valmöjligheterna i en pop-up
     newJMenuItem.addActionListener(e -> {
         String val = (String) JOptionPane.showInputDialog(
-                this,                             // Föräldrakomponent (din JFrame)
-                "Välj vad du vill skapa:",        // Textmeddelande
-                "Skapa nytt",                    // Titel på fönstret
-                JOptionPane.QUESTION_MESSAGE,     // Typ av ikon
-                null,                             // Egen ikon (null använder standard)
-                alternativ,                       // Arrayen med dina val
-                alternativ[0]                     // Standardvalet
+                this,                             
+                "Välj vad du vill skapa:",
+                "Skapa nytt",              
+                JOptionPane.QUESTION_MESSAGE,     
+                null,                       
+                alternativ,                       
+                alternativ[0]                     
         );
 
-        // Hantera användarens val
         if (val != null) { 
             switch (val) {
                 case "Butikslayout"    -> {
-                // Skapa och visa det nya receptfönstret
                 LayoutWindow layoutWindow = new LayoutWindow(layoutRepository);
                 layoutWindow.setVisible(true);
             }
                 case "Veckomeny"    -> {
-                // Skapa och visa det nya receptfönstret
                 MenuWindow menuWindow = new MenuWindow(veckomenyRepository, receptRepository);
                 menuWindow.setVisible(true);
             }
                 case "Recept" -> {
-                // Skapa och visa det nya receptfönstret
                 RecipeWindow recipeWindow = new RecipeWindow(receptRepository);
                 recipeWindow.setVisible(true);
             }
-            }
+             
+        }
         }
     });
 

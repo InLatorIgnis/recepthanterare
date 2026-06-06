@@ -4,7 +4,7 @@ import java.util.List;
 import ENUMS.Kategori;
 
 public class ButiksLayout {
-    //laddar in butikslayout, ska ta emot en lista med ingredienser och sortera lista baserat på kategori och ordigning i butiken
+    //laddar in butikslayout, ska ta emot en lista med ingredienser och sortera lista baserat på kategori och ordning i butiken
     private String butiksNamn;
     private List<Kategori> kategoriOrdning;
 

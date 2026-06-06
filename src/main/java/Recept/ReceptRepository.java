@@ -2,9 +2,9 @@ package Recept;
 import java.io.IOException;
 
 public interface ReceptRepository {
-    void spara(receptfabrik recept) throws IOException;
+    void spara(ReceptFabrik recept) throws IOException;
     
-    receptfabrik ladda(String namn) throws IOException;
+    ReceptFabrik ladda(String namn) throws IOException;
     
     boolean exists(String namn);
     
