@@ -3,6 +3,11 @@ plugins {
     id 'application'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 application {
     mainClass = 'main.Main'
 }
@@ -14,4 +19,23 @@ repositories {
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
     implementation 'org.javatuples:javatuples:1.2'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/dist/resources'
+        }
+    }
+}
+
+distributions {
+    main {
+        contents {
+            from('src/dist/resources') {
+                into 'resources'
+                duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            }
+        }
+    }
 }

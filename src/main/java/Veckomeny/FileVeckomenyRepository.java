@@ -9,7 +9,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileVeckomenyRepository implements VeckomentyRepository {
     
-    public static final Path DEFAULT_WEEKMENUS_DIR = Path.of("./veckomenyrer");
+    public static final Path DEFAULT_WEEKMENUS_DIR = determineDefaultWeekmenusDir();
+    
+    private static Path determineDefaultWeekmenusDir() {
+        Path distributionDir = Path.of("resources", "veckomenyrer");
+        if (Files.exists(distributionDir)) {
+            return distributionDir;
+        }
+        return Path.of("src", "dist", "resources", "veckomenyrer");
+    }
     
     private Map<String, Veckomeny> veckomenyCahe = new HashMap<>();
     private final Path folderPath;

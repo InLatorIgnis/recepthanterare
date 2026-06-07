@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.time.DayOfWeek;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import Butikslayout.ButiksLayout;
 import ENUMS.Kategori;
@@ -16,8 +15,17 @@ import Veckomeny.Veckomeny;
 import Veckomeny.Veckomeny.VeckomenyPost;
 
 public class Inköpslista {
-    public static final Path DEFAULT_SHOPPINGLIST_DIR = Path.of("./inköpslistor");
-    
+
+    public static final Path DEFAULT_SHOPPINGLIST_DIR = determineDefaultShoppingListDir();
+
+    private static Path determineDefaultShoppingListDir() {
+        Path distributionDir = Path.of("resources", "inköpslistor");
+        if (Files.exists(distributionDir)) {
+            return distributionDir;
+        }
+        return Path.of("src", "dist", "resources", "inköpslistor");
+    }
+
     private String namn;
     private ButiksLayout layout;
     private Veckomeny menu;

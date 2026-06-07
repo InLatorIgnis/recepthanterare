@@ -8,7 +8,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileReceptRepository implements ReceptRepository {
     
-    public static final Path DEFAULT_RECIPES_DIR = Path.of("./recept");
+    public static final Path DEFAULT_RECIPES_DIR = determineDefaultRecipesDir(); 
+    
+    private static Path determineDefaultRecipesDir() {
+        Path distributionDir = Path.of("resources", "recept");
+        if (Files.exists(distributionDir)) {
+            return distributionDir;
+        }
+        return Path.of("src", "dist", "resources", "recept");
+    }
     
     private Map<String, ReceptFabrik> receptMap = new HashMap<>();
     private final Path folderPath;

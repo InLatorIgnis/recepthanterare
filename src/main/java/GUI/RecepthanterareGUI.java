@@ -1,4 +1,5 @@
 package GUI;
+
 import javax.swing.*;
 
 import Butikslayout.ButiksLayout;
@@ -11,14 +12,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RecepthanterareGUI extends JFrame {
     private FileButiksLayoutRepository layoutRepository;
     private FileVeckomenyRepository veckomenyRepository;
     private FileReceptRepository receptRepository;
-
     private JComboBox<String> butikCombo;
     private JComboBox<String> menyCombo;
     private JTextArea resultArea;
@@ -30,15 +28,9 @@ public class RecepthanterareGUI extends JFrame {
     private JMenuItem newJMenuItem;
     private JMenuItem exitMenuItem;
 
-
     private String currentOutput = "";
 
-    
-
     public RecepthanterareGUI() {
-        
-
-
 
         setTitle("Recepthanterare");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +42,8 @@ public class RecepthanterareGUI extends JFrame {
             veckomenyRepository = new FileVeckomenyRepository(FileVeckomenyRepository.DEFAULT_WEEKMENUS_DIR);
             receptRepository = new FileReceptRepository(FileReceptRepository.DEFAULT_RECIPES_DIR);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Fel vid initialisering: " + e.getMessage(), "Fel", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fel vid initialisering: " + e.getMessage(), "Fel",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         initComponents();
@@ -65,66 +58,63 @@ public class RecepthanterareGUI extends JFrame {
         JPanel selectPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         selectPanel.setBorder(BorderFactory.createTitledBorder("Inköpslista Generator"));
 
+        // layoutCombo is unused in the current UI; keep repositories and combos for
+        // butik/meny
+
         // Skapa menykomponenter
-menuBar = new JMenuBar();
-fileMenu = new JMenu("Verktyg");
-newJMenuItem = new JMenuItem("Nytt");
-exitMenuItem = new JMenuItem("Avsluta");
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("Verktyg");
+        newJMenuItem = new JMenuItem("Nytt");
+        exitMenuItem = new JMenuItem("Avsluta");
 
-    // Alternativen för dialogrutan
-    String[] alternativ = {"Butikslayout", "Veckomeny", "Recept"};
+        // Alternativen för dialogrutan
+        String[] alternativ = { "Butikslayout", "Veckomeny", "Recept" };
 
-    // Lyssnare för "Nytt" som visar valmöjligheterna i en pop-up
-    newJMenuItem.addActionListener(e -> {
-        String val = (String) JOptionPane.showInputDialog(
-                this,                             
-                "Välj vad du vill skapa:",
-                "Skapa nytt",              
-                JOptionPane.QUESTION_MESSAGE,     
-                null,                       
-                alternativ,                       
-                alternativ[0]                     
-        );
+        // Lyssnare för "Nytt" som visar valmöjligheterna i en pop-up
+        newJMenuItem.addActionListener(e -> {
+            String val = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Välj vad du vill skapa:",
+                    "Skapa nytt",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    alternativ,
+                    alternativ[0]);
 
-        if (val != null) { 
-            switch (val) {
-                case "Butikslayout"    -> {
-                LayoutWindow layoutWindow = new LayoutWindow(layoutRepository);
-                layoutWindow.setVisible(true);
+            if (val != null) {
+                switch (val) {
+                    case "Butikslayout" -> {
+                        LayoutWindow layoutWindow = new LayoutWindow(layoutRepository);
+                        layoutWindow.setVisible(true);
+                    }
+                    case "Veckomeny" -> {
+                        MenuWindow menuWindow = new MenuWindow(veckomenyRepository, receptRepository);
+                        menuWindow.setVisible(true);
+                    }
+                    case "Recept" -> {
+                        RecipeWindow recipeWindow = new RecipeWindow(receptRepository);
+                        recipeWindow.setVisible(true);
+                    }
+
+                }
             }
-                case "Veckomeny"    -> {
-                MenuWindow menuWindow = new MenuWindow(veckomenyRepository, receptRepository);
-                menuWindow.setVisible(true);
-            }
-                case "Recept" -> {
-                RecipeWindow recipeWindow = new RecipeWindow(receptRepository);
-                recipeWindow.setVisible(true);
-            }
-             
-        }
-        }
-    });
+        });
 
-    // Avsluta-knappens logik
-    exitMenuItem.addActionListener(e -> dispose());
+        // Avsluta-knappens logik
+        exitMenuItem.addActionListener(e -> dispose());
 
-    // Bygg menyn
-    fileMenu.add(newJMenuItem);
-    fileMenu.add(exitMenuItem);
-    menuBar.add(fileMenu);
-    setJMenuBar(menuBar);
-
-
-
-
-        
+        // Bygg menyn
+        fileMenu.add(newJMenuItem);
+        fileMenu.add(exitMenuItem);
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
 
         selectPanel.add(new JLabel("Välj butik:"));
-        butikCombo = new JComboBox<>(getAvailableButiker());
+        butikCombo = new JComboBox<>();
         selectPanel.add(butikCombo);
 
         selectPanel.add(new JLabel("Välj veckomeny:"));
-        menyCombo = new JComboBox<>(getAvailableMenus());
+        menyCombo = new JComboBox<>();
         selectPanel.add(menyCombo);
 
         genereraButton = new JButton("Generera inköpslista");
@@ -135,6 +125,10 @@ exitMenuItem = new JMenuItem("Avsluta");
         sparaButton.setEnabled(false);
         sparaButton.addActionListener(e -> sparaFil());
         selectPanel.add(sparaButton);
+
+        // Populate combos
+        loadButikerCombo();
+        loadMenyerCombo();
 
         mainPanel.add(selectPanel, BorderLayout.NORTH);
 
@@ -151,50 +145,52 @@ exitMenuItem = new JMenuItem("Avsluta");
 
         JButton refreshButton = new JButton("Uppdatera");
         refreshButton.addActionListener(e -> {
-            getAvailableButiker();
-            getAvailableMenus();
+            loadButikerCombo();
+            loadMenyerCombo();
         });
         mainPanel.add(refreshButton, BorderLayout.EAST);
 
         add(mainPanel);
     }
 
-    private String[] getAvailableButiker() {
-        try {
-            Path layoutDir = FileButiksLayoutRepository.DEFAULT_LAYOUTS_DIR;
-            if (Files.exists(layoutDir)) {
-                List<String> butiker = new ArrayList<>();
-                Files.list(layoutDir)
-                    .filter(p -> p.toString().endsWith(".json"))
-                    .forEach(p -> {
-                        String fileName = p.getFileName().toString();
-                        butiker.add(fileName.substring(0, fileName.length() - 5));
-                    });
-                return butiker.toArray(new String[0]);
+    private void loadButikerCombo() {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                butikCombo.removeAllItems();
+                Path layoutDir = FileButiksLayoutRepository.DEFAULT_LAYOUTS_DIR;
+                if (Files.exists(layoutDir)) {
+                    Files.list(layoutDir)
+                            .filter(p -> p.toString().endsWith(".json"))
+                            .forEach(p -> {
+                                String fileName = p.getFileName().toString();
+                                butikCombo.addItem(fileName.substring(0, fileName.length() - 5));
+                            });
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Fel vid läsning av butiker: " + e.getMessage(), "Fel",
+                        JOptionPane.ERROR_MESSAGE);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Fel vid läsning av butiker: " + e.getMessage(), "Fel", JOptionPane.ERROR_MESSAGE);
-        }
-        return new String[0];
+        });
     }
 
-    private String[] getAvailableMenus() {
-        try {
-            Path menyDir = FileVeckomenyRepository.DEFAULT_WEEKMENUS_DIR;
-            if (Files.exists(menyDir)) {
-                List<String> menus = new ArrayList<>();
-                Files.list(menyDir)
-                    .filter(p -> p.toString().endsWith(".json"))
-                    .forEach(p -> {
-                        String fileName = p.getFileName().toString();
-                        menus.add(fileName.substring(0, fileName.length() - 5));
-                    });
-                return menus.toArray(new String[0]);
+    private void loadMenyerCombo() {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                menyCombo.removeAllItems();
+                Path menyDir = FileVeckomenyRepository.DEFAULT_WEEKMENUS_DIR;
+                if (Files.exists(menyDir)) {
+                    Files.list(menyDir)
+                            .filter(p -> p.toString().endsWith(".json"))
+                            .forEach(p -> {
+                                String fileName = p.getFileName().toString();
+                                menyCombo.addItem(fileName.substring(0, fileName.length() - 5));
+                            });
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Fel vid läsning av menyer: " + e.getMessage(), "Fel",
+                        JOptionPane.ERROR_MESSAGE);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Fel vid läsning av menyer: " + e.getMessage(), "Fel", JOptionPane.ERROR_MESSAGE);
-        }
-        return new String[0];
+        });
     }
 
     private void genereraInköpslista() {
@@ -202,7 +198,8 @@ exitMenuItem = new JMenuItem("Avsluta");
         String selectedMeny = (String) menyCombo.getSelectedItem();
 
         if (selectedButik == null || selectedButik.isEmpty() || selectedMeny == null || selectedMeny.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vänligen välj både butik och veckomeny.", "Val saknas", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vänligen välj både butik och veckomeny.", "Val saknas",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -219,13 +216,15 @@ exitMenuItem = new JMenuItem("Avsluta");
 
             JOptionPane.showMessageDialog(this, "Inköpslista genererad!", "Framgång", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Fel vid generering: " + e.getMessage(), "Fel", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fel vid generering: " + e.getMessage(), "Fel",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void sparaFil() {
         if (currentOutput.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Det finns ingen inköpslista att spara.", "Fel", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Det finns ingen inköpslista att spara.", "Fel",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -237,9 +236,11 @@ exitMenuItem = new JMenuItem("Avsluta");
             Path filePath = outputDir.resolve(selectedMeny + "_inköpslista.txt");
             Files.writeString(filePath, currentOutput);
 
-            JOptionPane.showMessageDialog(this, "Inköpslista sparad till:\n" + filePath.toAbsolutePath(), "Framgång", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inköpslista sparad till:\n" + filePath.toAbsolutePath(), "Framgång",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Fel vid sparning: " + e.getMessage(), "Fel", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fel vid sparning: " + e.getMessage(), "Fel",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -247,4 +248,3 @@ exitMenuItem = new JMenuItem("Avsluta");
         SwingUtilities.invokeLater(() -> new RecepthanterareGUI());
     }
 }
-

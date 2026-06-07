@@ -9,7 +9,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileButiksLayoutRepository implements ButiksLayoutRepository {
 
-     public static final Path DEFAULT_LAYOUTS_DIR = Path.of("./butikslayouter");
+     public static final Path DEFAULT_LAYOUTS_DIR = determineDefaultLayoutsDir();
+    
+    private static Path determineDefaultLayoutsDir() {
+        Path distributionDir = Path.of("resources", "butikslayouter");
+        if (Files.exists(distributionDir)) {
+            return distributionDir;
+        }
+        return Path.of("src", "dist", "resources", "butikslayouter");
+    }
     
     private Map<String, ButiksLayout> layoutMap = new HashMap<>();
     private final Path folderPath;
@@ -27,7 +35,7 @@ public class FileButiksLayoutRepository implements ButiksLayoutRepository {
             }
 
             Files.createDirectories(folderPath);
-            System.out.println("Using folder: " + folderPath.toAbsolutePath());
+            System.out.println("Using Layout folder: " + folderPath.toAbsolutePath());
         }
 
     @Override
