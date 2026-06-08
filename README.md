@@ -19,7 +19,7 @@ Here are a few screenshots from Recepthanterare to help you understand the UI an
 ![Recipe handler](./Recepthanterare bilder/RecipeHandler.png)
 
 ### Store layout editor
-![Store layout](./Recepthanterare bilder/StoreLayout.png)
+![Store layout](Recepthanterare bilder/StoreLayout.png)
 
 ## Build
 
