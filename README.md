@@ -18,8 +18,13 @@ Here are a few screenshots from Recepthanterare to help you understand the UI an
 ### Recipe handler
 ![Recipe handler](./RecepthanterareBilder/RecipeHandler.png)
 
+### Recipe handler
+![Recipe handler](./RecepthanterareBilder/RecipeSugester.png)
+
 ### Store layout editor
 ![Store layout](./RecepthanterareBilder/StoreLayout.png)
+
+
 
 ## Build
 
