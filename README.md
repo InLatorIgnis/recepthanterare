@@ -15,16 +15,26 @@ Here are a few screenshots from Recepthanterare to help you understand the UI an
 ### Main screen
 ![Main screen](./RecepthanterareBilder/mainscreen.png)
 
+#### What this shows
+The starting view where you can browse recipes, weekly menus, and shopping lists in one place.
+
 ### Recipe handler
 ![Recipe handler](./RecepthanterareBilder/RecipeHandler.png)
 
-### Recipe handler
+#### 
+The recipe editor and manager, where you can add, edit, and organize recipes.
+
+### Recipe suggester
 ![Recipe handler](./RecepthanterareBilder/RecipeSugester.png)
+
+#### 
+A tool for suggesting recipes based on ingredients or previously saved meals.
 
 ### Store layout editor
 ![Store layout](./RecepthanterareBilder/StoreLayout.png)
 
-
+#### 
+The store layout view used to organize shopping lists by aisle and location.
 
 ## Build
 
