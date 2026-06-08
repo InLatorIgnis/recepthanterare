@@ -16,7 +16,7 @@ Here are a few screenshots from Recepthanterare to help you understand the UI an
 ![Main screen](./Recepthanterare bilder/mainscreen.png)
 
 ### Recipe handler
-![Recipe handler](./Recepthanterare bilder/RecipeHandler.png)
+![Recipe handler](Recepthanterare bilder/RecipeHandler.png)
 
 ### Store layout editor
 ![Store layout](Recepthanterare bilder/StoreLayout.png)
