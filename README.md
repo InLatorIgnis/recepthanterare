@@ -13,13 +13,13 @@ If you want to contribute feel free to fork the repo, or add suggestions of rece
 Here are a few screenshots from Recepthanterare to help you understand the UI and workflow.
 
 ### Main screen
-![Main screen](./Recepthanterare bilder/mainscreen.png)
+![Main screen](./RecepthanterareBilder/mainscreen.png)
 
 ### Recipe handler
-![Recipe handler](Recepthanterare bilder/RecipeHandler.png)
+![Recipe handler](./RecepthanterareBilder/RecipeHandler.png)
 
 ### Store layout editor
-![Store layout](Recepthanterare bilder/StoreLayout.png)
+![Store layout](./RecepthanterareBilder/StoreLayout.png)
 
 ## Build
 
