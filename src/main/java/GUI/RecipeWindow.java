@@ -33,7 +33,7 @@ public class RecipeWindow extends JFrame {
         this.receptRepository = receptRepository;
 
         setTitle("Recepthanterare");
-        setSize(800, 600);
+        setSize(850, 600);
         setLocationRelativeTo(null);
         // Stänger ENDAST detta fönster, inte hela programmet
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
