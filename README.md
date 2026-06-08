@@ -8,6 +8,19 @@ This is a small app i made to train my object oriented programing and get into u
 
 If you want to contribute feel free to fork the repo, or add suggestions of recepies or store layouts to make it more useful.
 
+## Screenshots
+
+Here are a few screenshots from Recepthanterare to help you understand the UI and workflow.
+
+### Main screen
+![Main screen](./Recepthanterare bilder/mainscreen.png)
+
+### Recipe handler
+![Recipe handler](./Recepthanterare bilder/RecipeHandler.png)
+
+### Store layout editor
+![Store layout](./Recepthanterare bilder/StoreLayout.png)
+
 ## Build
 
 ```bash
