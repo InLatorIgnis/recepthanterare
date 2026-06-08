@@ -15,7 +15,7 @@ Here are a few screenshots from Recepthanterare to help you understand the UI an
 ### Main screen
 ![Main screen](./RecepthanterareBilder/mainscreen.png)
 
-#### What this shows
+####
 The starting view where you can browse recipes, weekly menus, and shopping lists in one place.
 
 ### Recipe handler
