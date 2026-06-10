@@ -1,15 +1,28 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.beryx.runtime' version '2.0.1'
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 
 application {
     mainClass = 'main.Main'
+}
+
+ runtime {
+    jpackage {
+        installerType = 'msi'
+        imageName = 'recepthanterare'
+        appVersion = '1.0.0'
+        installerOptions = ['--win-menu', '--win-shortcut']
+    }
 }
 
 repositories {

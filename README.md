@@ -54,6 +54,20 @@ The generated zip is available at:
 build/distributions/recepthanterare.zip
 ```
 
+## Create a Windows installer
+
+```bash
+./gradlew clean jpackage
+```
+
+The generated installer is available at:
+
+```bash
+build/jpackage/recepthanterare-1.0.0.msi
+```
+
+> Note: `jpackage` is OS-specific. Build Windows installers on Windows with a JDK 17+ installation that includes `jpackage`.
+
 ## Run the packaged application
 
 Unzip the distribution and use the launcher script:
