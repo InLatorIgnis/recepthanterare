@@ -16,13 +16,54 @@ application {
     mainClass = 'main.Main'
 }
 
- runtime {
+runtime {
+    modules = ['java.base', 'java.desktop', 'java.prefs', 'java.logging', 'java.sql']
+
     jpackage {
-        installerType = 'msi'
+        def osName = System.getProperty('os.name').toLowerCase()
+        def requestedInstallerType = project.findProperty('installerType')?.toString()?.toLowerCase()
+        def effectiveInstallerType = requestedInstallerType ?: (
+            osName.contains('win') ? 'msi' :
+            (osName.contains('mac') || osName.contains('darwin')) ? 'dmg' :
+            'deb'
+        )
+
+        switch (effectiveInstallerType) {
+            case 'msi':
+                installerType = 'msi'
+                installerOptions = ['--win-menu', '--win-shortcut']
+                break
+            case 'dmg':
+                installerType = 'dmg'
+                installerOptions = []
+                break
+            case 'rpm':
+                installerType = 'rpm'
+                installerOptions = []
+                break
+            case 'deb':
+            default:
+                installerType = 'deb'
+                installerOptions = ['--resource-dir', file('build-config/linux')]
+                break
+        }
+
         imageName = 'recepthanterare'
+        installerName = 'recepthanterare'
         appVersion = '1.0.0'
-        installerOptions = ['--win-menu', '--win-shortcut']
     }
+}
+
+// Copy resources to the runtime image for jpackage
+// Copy resources to the jpackage staging directory
+task copyResourcesToJpackage(type: Copy) {
+    from 'src/dist/resources'
+    into "${buildDir}/jpackage/recepthanterare/lib/app/resources"
+    dependsOn 'jpackageImage'
+}
+
+tasks.named('jpackage').configure {
+    dependsOn copyResourcesToJpackage
 }
 
 repositories {

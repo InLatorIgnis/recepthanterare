@@ -5,7 +5,9 @@ import GUI.RecepthanterareGUI;
 public class Main {
 
     public static void main(String[] args) {
-        //TODO: Lägg till argumenthantering för att välja mellan CLI och GUI, se till att terminal passas med och CLI exportera Jar fil som normal användare kan starta.
+        
+        initAppData.initAppData();
+
         String mode = (args.length > 0) ? args[0] : "gui";
 
         switch (mode.toLowerCase()) {

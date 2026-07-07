@@ -1,0 +1,49 @@
+#!/bin/bash
+# Post-installation script for recepthanterare
+# This script copies sample data files to the installing user's home directory on first install.
+
+set -e
+
+INSTALL_DIR="/opt/recepthanterare"
+USER_HOME=""
+
+if [ -n "$SUDO_USER" ] && [ "$SUDO_USER" != "root" ]; then
+    USER_HOME=$(eval echo "~$SUDO_USER")
+elif [ -n "$LOGNAME" ] && [ "$LOGNAME" != "root" ]; then
+    USER_HOME=$(eval echo "~$LOGNAME")
+fi
+
+copy_sample_files() {
+    local resource_dir="$1"
+    local target_dir="$2"
+
+    if [ -d "$resource_dir" ]; then
+        mkdir -p "$target_dir"
+
+        if [ -z "$(ls -A "$target_dir" 2>/dev/null)" ]; then
+            echo "Copying sample files from $resource_dir to $target_dir..."
+            cp -a "$resource_dir"/. "$target_dir/" 2>/dev/null || true
+        fi
+    fi
+}
+
+if [ -n "$USER_HOME" ]; then
+    USER_DATA_DIR="${USER_HOME}/.recepthanterare"
+    mkdir -p "$USER_DATA_DIR"
+
+    RESOURCE_BASE="$INSTALL_DIR/lib/app/resources"
+    if [ -d "$RESOURCE_BASE" ]; then
+        copy_sample_files "$RESOURCE_BASE/recept" "$USER_DATA_DIR/recept"
+        copy_sample_files "$RESOURCE_BASE/veckomenyrer" "$USER_DATA_DIR/menus"
+        copy_sample_files "$RESOURCE_BASE/inköpslistor" "$USER_DATA_DIR/shoppinglists"
+        copy_sample_files "$RESOURCE_BASE/butikslayouter" "$USER_DATA_DIR/layouts"
+    fi
+
+    chmod -R u+rwX "$USER_DATA_DIR"
+else
+    echo "No non-root install user detected; skipping example file copy to user home."
+fi
+
+echo "recepthanterare data initialization completed"
+
+exit 0

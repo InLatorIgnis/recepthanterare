@@ -16,15 +16,7 @@ import Veckomeny.Veckomeny.VeckomenyPost;
 
 public class Inköpslista {
 
-    public static final Path DEFAULT_SHOPPINGLIST_DIR = determineDefaultShoppingListDir();
-
-    private static Path determineDefaultShoppingListDir() {
-        Path distributionDir = Path.of("resources", "inköpslistor");
-        if (Files.exists(distributionDir)) {
-            return distributionDir;
-        }
-        return Path.of("src", "dist", "resources", "inköpslistor");
-    }
+    public static final Path DEFAULT_SHOPPINGLIST_DIR = main.PathLogic.SHOPPINGLISTS_DIR;
 
     private String namn;
     private ButiksLayout layout;
